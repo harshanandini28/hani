@@ -1,12 +1,12 @@
 1. Enable the Deployment Manager and Compute Engine APIs.
 
 2. In cloud shell Configure the gcloud command-line tool to use your project.
-gcloud config set project [MY_PROJECT]
+          gcloud config set project [MY_PROJECT]
 
 3. Define your resources in vm.yaml
  
 4. Deploy the resources
-gcloud deployment-manager deployments create quickstart-deployment --config vm.yaml
+          gcloud deployment-manager deployments create quickstart-deployment --config vm.yaml
 
 5. create custom vpc networks with subnets and configure firewalls
 
