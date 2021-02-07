@@ -1,0 +1,64 @@
+Task 2
+
+1. From task 1 we have created
+
+	i) VPC network
+	ii)firewall rule
+
+2. To create an instance template 
+
+	i)  which defines the machine type, boot disk and other instace properties.
+	ii) it is a resource that we can use to create VM instance and MIG.
+
+3. To create Managed Instance Group (MIG)
+
+	i)  to configure zones and regions
+	ii) under a instance template category specify instance template name for establishing connection
+	    between instance template and MIG.
+	iii)specify the min and max no of instances as 3 to 6.
+
+4. Simulte scale in and out
+
+	i) Initally it will create 3 MIG as we specified min no of instances as 3.
+	ii)we can perform autoscaling on high availability of instances upto max 6 and min 3.
+
+5. To reserve a static address inorder to provide the load balancer with a single point of entry.
+   	i) reserve withipv4 and type as global.
+
+6. Create load balancer
+
+	i) specify front end and backend configuration
+	iii) backend configuration is to define how load balancing want to distribute traffic.
+	iii)front-end configuration is a server uses a virtual IP address to accepts requests.
+	iv) set up health criteria to check the application in a regualr period of time.
+	v)  if any of the application VM is not healthy then it recreates the VM.
+7. get the external IP from frontend of loadbalancer by:
+ 	gcloud compute forwarding-rules | grep harsha-ipv4-frontend.
+
+8. To create a local bash variable
+
+	export LOAD_BALANCER_IP=[our_external_ip]
+
+9. To monitor which zone the load balancer is directing traffic 
+
+ 	while true
+do
+        BODY=$(curl -s "$LOAD_BALANCER_IP")
+        NAME=$(echo -n "$BODY" | grep "harsha-web-app-group" | perl -pe 's/.+?harsha-web-app-group-(.+?)<.+/\1/')
+        ZONE=$(echo -n "$BODY" | grep "us-" | perl -pe 's/.+?(us-.+?)<.+/\1/')
+
+        echo $ZONE
+done
+
+10. Create a local bash variable for which zone u want to disable
+
+	export DISABLE_ZONE=us-central-f
+
+11. we can examine the disablement of the us-central-f zone.
+
+12. we can enable the same zone by 
+
+	export ENABLE_ZONE=us-cemtral-f
+
+
+   
