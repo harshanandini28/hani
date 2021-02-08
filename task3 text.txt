@@ -1,0 +1,38 @@
+Task 3 (Automate App Engine deployments with Cloud Build)
+
+It shows how to deploy automatically an application to store in cloud source repository
+
+1 Create a repository
+	gcloud source repos create harsha-hello-world
+2 Clone a repository
+	gcloud source repos clone harsha-hello-world 
+3 Create main.py
+4 Create an app.yaml file
+5 Push to Cloud Source Repositories
+   a. To go to directory
+	cd harsha-hello-world
+   b. Add the files
+	git add .
+   c. Commit the files to the repository 
+	git commit -m "Add Hello World app to Cloud Source Repositories"
+   d. To push code from local repository to cloud source repository
+	git push origin master
+6 Grant App Engine access to the Cloud Build service account
+Enable your service account to deploy to App Engine
+7 Deploy your app
+   a. Deploy the sample app
+	gcloud app deploy app.yaml
+   b. to check whether the app is running or not we use
+	gcloud app browse
+8 Create a cloudbuild.yaml file
+Using a text editor, create a file named cloudbuild.yaml
+9 Add the cloudbuild.yaml file to your repository
+    a. Add cloudbuild.yaml to the repository
+	git add .
+    b. Commit the file
+	git commit -m "Add cloudbuild.yaml file"
+    c. To push code from local repository to cloud source repository
+	git push origin master
+10 Create a build trigger
+	
+
