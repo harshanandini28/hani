@@ -1,0 +1,38 @@
+Task 4 (Deploy microservice app with UI, Backend service and a DB service on GKE cluster and Enabling Autoscaling, High Availability and Perform Rolling update to above Deployment
+
+1. Microservice to Containers
+    a. Here we are taking one sample application and we are cloning 
+	git clone https://github.com/GoogleCloudPlatform/kubernetes-engine-samples
+    b. go to directory by using
+	cd kubernetes-engine-samples/hello-app
+    c. to build container image with tag taht includes your gcp project ID
+	docker build -t gcr.io/${DEVSHELL_PROJECT_ID}/hello-app:v1 
+    d. Authenticate to the registry with the following command, and then push the image
+	gcloud auth configure-docker
+	docker push gcr.io/${DEVSHELL_PROJECT_ID}/hello-app:v1
+2. Creating a Kubernetes Cluster in GKE
+      creating cluster in console 
+3. Containers to the Cloud
+    a. Create a deployment with the following command
+	kubectl create deployment hello-world --image=gcr.io/${DEVSHELL_PROJECT_ID}/hello-app:v1
+    b. This command creates a 1-replica deployment from the image that we have already pushed 
+	kubectl scale --replicas=5 deployment/hello-world
+    c. Check the status of the pods
+	kubectl get pods
+4. Exposing the sample app to the internet
+    a. Use the kubectl expose command to generate a Kubernetes Service for the hello-app deployment
+	kubectl expose deployment hello-app --name=hello-app-service --type=LoadBalancer --port 80 --target-port 8080
+    b. Run the following command to get the Service details for hello-app-service
+	kubectl get service
+5. Deploying a new version of the sample app
+    In cloud shell 
+     a. Build and tag a new hello-app Docker image
+	  docker build -t gcr.io/${PROJECT_ID}/hello-app:v2 .
+     b. Push the image to Container Registry
+	  docker push gcr.io/${PROJECT_ID}/hello-app:v2
+    Now you're ready to update your hello-app Kubernetes Deployment to use a new Docker image
+6. Rolling uodate
+    a. Apply a rolling update to the existing Deployment with an image update
+	kubectl set image deployment/hello-app hello-app=gcr.io/${PROJECT_ID}/hello-app:v2
+    b. Watch the running Pods running the v1 image stop, and new Pods running the v2 image start
+	watch kubectl get pods
