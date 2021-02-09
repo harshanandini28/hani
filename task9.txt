@@ -1,0 +1,77 @@
+Task 9 (Hosting a static website)
+
+1. Creating a bucket
+     To create a bucket we use console
+     a. Open the Cloud Storage browser in the Google Cloud Console
+     b. Click Create bucket to open the bucket creation form
+     c. name yor bucket next continue
+        choose where to store data
+	choose a default storage class for your data
+	choose how to control access to objects
+        Advanced settings (optional) next click create  
+     d. Enter your bucket information and click Continue to complete each step
+     e. Click Create
+2. Uploading your site's files
+     Add the files you want your website to serve to the bucket
+      a. Open the Cloud Storage browser in the Google Cloud Console
+      b. In the list of buckets, click on the name of the bucket that you created
+      c. Click the Upload files button
+      d. In the file dialog, browse to the desired file and select it
+    After the upload completes, you should see the file name along with file information displayed in the bucket
+3. Sharing your files
+     To make all objects in your bucket readable to everyone on the public internet
+       Open the Cloud Storage browser in the Google Cloud Console.
+	a. Open the Cloud Storage browser
+	b. In the list of buckets, click on the name of the bucket that you want to make public.
+	c. Select the Permissions tab near the top of the page.
+	d. Click the Add members button.
+	e. The Add members dialog box appears.
+	d. In the New members field, enter allUsers.
+	f. In the Select a role drop down, select the Cloud Storage sub-menu, and click the Storage Object Viewer option.
+	g. Click Save.
+	h. Click Allow public access.
+4. Setting up your load balancer and SSL certificate
+       Cloud Storage doesn't support custom domains with HTTPS on its own, so you also need to set up an SSL certificate attached to an HTTPS load balancer to serve your website through HTTPS
+	a. Go to the Load balancing page in the Google Cloud Console.	
+	b. Under HTTP(S) load balancing, click Start configuration.
+	c. Select From Internet to my VMs and click Continue.
+	d. Give your load balancer a Name, such as example-lb
+     Configuring the backend
+       Click Backend configuration.
+	a. In the Create or select backend services & backend buckets dropdown, go to the Backend buckets sub-menu, and click the Create a backend bucket option.
+	b. Choose a Name for the backend bucket, such as example-bucket.
+	c. Click Browse under Cloud Storage bucket.
+	d. Select the my-static-assets bucket and click Select.
+	e. If you want to use Cloud CDN, select the checkbox for Enable Cloud CDN. Leave the Cache mode selection as Cache static content. Note that Cloud CDN may incur additional costs.
+	f. Click Create.
+    Configuring host rules and path matchers
+	Host rules and path matchers are configuration components of an external HTTP(S) load balancer's URL map.
+	 a. Click Host and path rules.
+	 b. Leave Mode at the default Simple host and path rule for the backend bucket example-bucket, which you created earlier.
+    Configuring the frontend
+	This section shows you how to configure the HTTPS protocol and create an SSL certificate. You can also select an existing certificate or upload a self-managed SSL certificate.
+
+	 Click Frontend configuration.
+	 Configure the values for the following fields:
+         Protocol: HTTPS
+	 Network Service Tier: Premium
+	 IP version: IPv4. If you prefer IPv6, see IPv6 termination for additional information.
+	 For the IP address field:
+	 In the dropdown, click Create IP address.
+	 In the Reserve a new static IP address pop-up, enter example-ip for the Name of the IP address.
+ 	 Click Reserve.
+         For Port, select 443.
+         For the Certificate field, select Create a new certificate. The certificate creation form appears in a panel. Configure the following:
+         Name: example-ssl
+         Create mode: Create Google-managed certificate
+         Domains: www.example.com. If you want to serve your content through additional domains such as the root domain example.com, press Enter to add them on additional lines. Each certificate has a limit of 100 domains.
+         Click Create.
+         Click Done.
+   Reviewing the configuration
+	Click Review and finalize.
+	Review the Backend configuration, Host and path rules, and Frontend configuration.
+	Click Create
+5. Now copy the URL of the bucket file and you can see the public access over the internet of the web application
+	
+
+        
